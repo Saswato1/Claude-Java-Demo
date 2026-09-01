@@ -31,3 +31,29 @@ build/
 
 ### VS Code ###
 .vscode/
+*.code-workspace
+
+### Maven Wrapper ###
+.mvn/wrapper/maven-wrapper.properties
+
+### Spring Boot ###
+*.log
+spring-shell.log
+logs/
+*.pid
+*.hprof
+
+### MySQL ###
+*.sql.bak
+*.dump
+
+### Claude Code ###
+.claude/
+
+### OS ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Lombok ###
+.lombok/
