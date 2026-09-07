@@ -9,6 +9,7 @@ import com.saswato.ecommerce.ecommerceapi.exception.ResourceNotFoundException;
 import com.saswato.ecommerce.ecommerceapi.repository.OrderRepository;
 import com.saswato.ecommerce.ecommerceapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -103,6 +105,12 @@ public class OrderService {
             // Reduce stock at order placement
             product.setStockQuantity(product.getStockQuantity() - itemRequest.getQuantity());
             productRepository.save(product);
+
+            // Low stock warning (non-blocking)
+            if (product.getStockQuantity() < 10) {
+                log.warn("Low stock alert: {} has {} units left",
+                        product.getName(), product.getStockQuantity());
+            }
 
             OrderItem item = OrderItem.builder()
                     .product(product)
